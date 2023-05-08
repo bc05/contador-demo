@@ -7,13 +7,13 @@ import { ContadorService } from './contador.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
+  valor: number;
+
   constructor(private contadorService: ContadorService) {}
 
   ngOnInit() {
-    this.contadorService.adicionar();
-
-    this.contadorService.obterObservable().subscribe((valor) => {
-      console.log('valor adicionado', valor);
+    this.contadorService.obterObservable().subscribe((novoValor) => {
+      this.valor = novoValor;
     });
   }
 }
