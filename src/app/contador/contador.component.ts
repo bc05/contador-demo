@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { formControl } from '@angular/core/schematics/migrations/typed-forms/util';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ContadorService } from '../contador.service';
 
 @Component({
@@ -7,13 +9,26 @@ import { ContadorService } from '../contador.service';
   styleUrls: ['./contador.component.css'],
 })
 export class ContadorComponent implements OnInit {
-  valor = 0;
+  valor = new FormControl<number>(null, [
+    Validators.required,
+    Validators.min(5),
+  ]);
+
+  form = new FormGroup({
+    valor: this.valor,
+  });
 
   constructor(private contadorService: ContadorService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.valor.valueChanges.subscribe((novoValor) =>
+      this.lidarComMudouValor(novoValor)
+    );
+  }
 
-  lidarComAdicionar() {
-    this.contadorService.adicionar();
+  lidarComMudouValor(novoValor) {
+    if (this.form.valid) {
+      this.contadorService.mudarValor(novoValor);
+    }
   }
 }

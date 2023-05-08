@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,8 +9,8 @@ export class ContadorService {
 
   constructor() {}
 
-  adicionar(): void {
-    this.contadorSubject.next(1);
+  mudarValor(valor: number): void {
+    this.contadorSubject.next(valor);
   }
 
   obterObservable(): Observable<number> {
